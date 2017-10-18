@@ -1,0 +1,145 @@
+<div class="btn-group">
+	<button type="button" class="btn btn-default" ng-click="nuevo()">Nuevo Producto</button>
+	<button type="button" class="btn btn-default" ng-click="cancelar()">Listar Producto</button>
+</div>
+				
+<div class="panel panel-primary" ng-hide="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Producto</div>
+    <div class="panel-body">
+        <table class="resultados table table-striped">
+            <tr>
+                				<th>
+                                    nombre
+                                </th>				<th>
+                                    descripcion
+                                </th>				<th>
+                                    codigo
+                                </th>
+								<th>
+				                    marca
+				                </th>				<th>
+				                    unidadMedida
+				                </th>				<th>
+				                    tienda
+				                </th>				<th>
+				                    tipoProducto
+				                </th>				<th>
+				                    tarifa
+				                </th>
+				<th>
+                    <input class="form-control" ng-model="q"  placeholder="Buscar"/>
+                </th>
+            </tr>
+            <tr dir-paginate="row in lista|filter: q|itemsPerPage:10">
+                		<td>{{row.nombre}}</td>
+                
+                		<td>{{row.descripcion}}</td>
+                
+                		<td>{{row.codigo}}</td>
+                
+                
+					<td class="row">{{row.marca.nombre}}</td>              	<td class="row">{{row.tienda.nombre}}</td>              	<td class="row">{{row.unidadMedida.nombre}}</td>              	<td class="row">{{row.tarifa.nombre}}</td>              	<td class="row">{{row.tipoProducto.nombre}}</td>              
+				<td class="row">
+                    <button type="button" class="btn btn-default" ng-click="editar(row)">
+                        <span class="glyphicon glyphicon-pencil"></span>Editar
+                    </button>
+					<button type="button" class="btn btn-default" ng-click="eliminar(row)">
+                        <span class="glyphicon glyphicon-remove"></span>Eliminar
+                    </button>
+                </td>
+            </tr>
+        </table>
+		<div dir-pagination-controls></div>
+		<br/>
+    </div>
+</div>
+
+<div class="panel panel-primary" ng-show="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Producto</div>
+    <div class="panel-body">
+        <form role="form" id="formularioEditar">
+            				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.nombre?'error':''">
+                                    <label for="nombre">nombre</label>
+                                    <input id="nombre" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.nombre"
+            							   placeholder="nombre"/>
+                                    <div ng-show="errores.nombre">{{errores.nombre}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.descripcion?'error':''">
+                                    <label for="descripcion">descripcion</label>
+                                    <input id="descripcion" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.descripcion"
+            							   placeholder="descripcion"/>
+                                    <div ng-show="errores.descripcion">{{errores.descripcion}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.codigo?'error':''">
+                                    <label for="codigo">codigo</label>
+                                    <input id="codigo" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.codigo"
+            							   placeholder="codigo"/>
+                                    <div ng-show="errores.codigo">{{errores.codigo}}</div>
+                                </div>
+                            </div> 
+							<div class="row">
+			                    <div class="form-group col-md-6" ng-class="errores.idAseg?'error':''">
+			                        <label>marca</label>
+									<select id="marca" class="form-control" 
+			                            ng-model="datosFormulario.marca"
+			                            ng-options="option.nombre for option in listaMarca track by option.id">
+			                    	</select>
+			                        <div ng-show="errores.marca">{{errores.marca}}</div>
+			                    </div>
+			                </div>				<div class="row">
+			                    <div class="form-group col-md-6" ng-class="errores.idAseg?'error':''">
+			                        <label>tipoProducto</label>
+									<select id="tipoProducto" class="form-control" 
+			                            ng-model="datosFormulario.tipoProducto"
+			                            ng-options="option.nombre for option in listaTipoProducto track by option.id">
+			                    	</select>
+			                        <div ng-show="errores.tipoProducto">{{errores.tipoProducto}}</div>
+			                    </div>
+			                </div>				<div class="row">
+			                    <div class="form-group col-md-6" ng-class="errores.idAseg?'error':''">
+			                        <label>tarifa</label>
+									<select id="tarifa" class="form-control" 
+			                            ng-model="datosFormulario.tarifa"
+			                            ng-options="option.nombre for option in listaTarifa track by option.id">
+			                    	</select>
+			                        <div ng-show="errores.tarifa">{{errores.tarifa}}</div>
+			                    </div>
+			                </div>				<div class="row">
+			                    <div class="form-group col-md-6" ng-class="errores.idAseg?'error':''">
+			                        <label>tienda</label>
+									<select id="tienda" class="form-control" 
+			                            ng-model="datosFormulario.tienda"
+			                            ng-options="option.nombre for option in listaTienda track by option.id">
+			                    	</select>
+			                        <div ng-show="errores.tienda">{{errores.tienda}}</div>
+			                    </div>
+			                </div>				<div class="row">
+			                    <div class="form-group col-md-6" ng-class="errores.idAseg?'error':''">
+			                        <label>unidadMedida</label>
+									<select id="unidadMedida" class="form-control" 
+			                            ng-model="datosFormulario.unidadMedida"
+			                            ng-options="option.nombre for option in listaUnidadMedida track by option.id">
+			                    	</select>
+			                        <div ng-show="errores.unidadMedida">{{errores.unidadMedida}}</div>
+			                    </div>
+			                </div>
+			<div class="btn-group">
+				<button type="button" class="btn btn-default" ng-click="guardar()">Aceptar</button>
+                <button type="button" class="btn btn-default" ng-click="cancelar()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+

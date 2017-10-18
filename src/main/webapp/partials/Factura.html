@@ -1,0 +1,240 @@
+<div class="btn-group">
+	<button type="button" class="btn btn-default" ng-click="nuevo()">Nuevo Factura</button>
+	<button type="button" class="btn btn-default" ng-click="cancelar()">Listar Factura</button>
+</div>
+				
+<div class="panel panel-primary" ng-hide="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Factura</div>
+    <div class="panel-body">
+        <table class="resultados table table-striped">
+            <tr>
+                				<th>
+                                    fechaVencimiento
+                                </th>				<th>
+                                    fechaEmision
+                                </th>				<th>
+                                    numero
+                                </th>				<th>
+                                    precioTotal
+                                </th>				<th>
+                                    estado
+                                </th>				<th>
+                                    descuento
+                                </th>				<th>
+                                    tipo
+                                </th>				<th>
+                                    iva
+                                </th>				<th>
+                                    ordenCompra
+                                </th>				<th>
+                                    remision
+                                </th>				<th>
+                                    saldo
+                                </th>
+								<th>
+				                    persona
+				                </th>				<th>
+				                    tipoPago
+				                </th>
+				<th>
+                    <input class="form-control" ng-model="q"  placeholder="Buscar"/>
+                </th>
+            </tr>
+            <tr dir-paginate="row in lista|filter: q|itemsPerPage:10">
+                		<td>{{row.fechaVencimiento| date: 'dd/MM/yyyy'}}</td>
+                
+                		<td>{{row.fechaEmision| date: 'dd/MM/yyyy'}}</td>
+                
+                		<td>{{row.numero}}</td>
+                
+                		<td>{{row.precioTotal}}</td>
+                
+                		<td>{{row.estado}}</td>
+                
+                		<td>{{row.descuento}}</td>
+                
+                		<td>{{row.tipo}}</td>
+                
+                		<td>{{row.iva}}</td>
+                
+                		<td>{{row.ordenCompra}}</td>
+                
+                		<td>{{row.remision}}</td>
+                
+                		<td>{{row.saldo}}</td>
+                
+                
+					<td class="row">{{row.persona.nombre}}</td>              	<td class="row">{{row.tipoPago.nombre}}</td>              
+				<td class="row">
+                    <button type="button" class="btn btn-default" ng-click="editar(row)">
+                        <span class="glyphicon glyphicon-pencil"></span>Editar
+                    </button>
+					<button type="button" class="btn btn-default" ng-click="eliminar(row)">
+                        <span class="glyphicon glyphicon-remove"></span>Eliminar
+                    </button>
+                </td>
+            </tr>
+        </table>
+		<div dir-pagination-controls></div>
+		<br/>
+    </div>
+</div>
+
+<div class="panel panel-primary" ng-show="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Factura</div>
+    <div class="panel-body">
+        <form role="form" id="formularioEditar">
+            				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.fechaVencimiento?'error':''">
+                                    <label for="fechaVencimiento">fechaVencimiento</label>
+            						<div class="input-group">
+            	                        <input id="fechaVencimiento" 
+            	                               class="form-control datepicker" 
+            	                               type="text" 
+            	                               ng-model="datosFormulario.fechaVencimiento"/>
+            							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                	</div>
+                                    <script>
+                                                $('#fechaVencimiento').datepicker({format: 'dd/mm/yyyy', language: "es"})
+            										.on('changeDate', function (ev) {
+                                                    	dp_fechaVencimiento.hide();
+                                                	}).data('datepicker');
+                                    </script>
+                                    <div ng-show="errores.fechaVencimiento">{{errores.fechaVencimiento}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.fechaEmision?'error':''">
+                                    <label for="fechaEmision">fechaEmision</label>
+            						<div class="input-group">
+            	                        <input id="fechaEmision" 
+            	                               class="form-control datepicker" 
+            	                               type="text" 
+            	                               ng-model="datosFormulario.fechaEmision"/>
+            							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                	</div>
+                                    <script>
+                                                $('#fechaEmision').datepicker({format: 'dd/mm/yyyy', language: "es"})
+            										.on('changeDate', function (ev) {
+                                                    	dp_fechaEmision.hide();
+                                                	}).data('datepicker');
+                                    </script>
+                                    <div ng-show="errores.fechaEmision">{{errores.fechaEmision}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.numero?'error':''">
+                                    <label for="numero">numero</label>
+                                    <input id="numero" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.numero"
+            							   placeholder="numero"/>
+                                    <div ng-show="errores.numero">{{errores.numero}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.precioTotal?'error':''">
+                                    <label for="precioTotal">precioTotal</label>
+                                    <input id="precioTotal" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.precioTotal"
+            							   placeholder="precioTotal"/>
+                                    <div ng-show="errores.precioTotal">{{errores.precioTotal}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.estado?'error':''">
+                                    <label for="estado">estado</label>
+                                    <input id="estado" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.estado"
+            							   placeholder="estado"/>
+                                    <div ng-show="errores.estado">{{errores.estado}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.descuento?'error':''">
+                                    <label for="descuento">descuento</label>
+                                    <input id="descuento" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.descuento"
+            							   placeholder="descuento"/>
+                                    <div ng-show="errores.descuento">{{errores.descuento}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.tipo?'error':''">
+                                    <label for="tipo">tipo</label>
+                                    <input id="tipo" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.tipo"
+            							   placeholder="tipo"/>
+                                    <div ng-show="errores.tipo">{{errores.tipo}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.iva?'error':''">
+                                    <label for="iva">iva</label>
+                                    <input id="iva" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.iva"
+            							   placeholder="iva"/>
+                                    <div ng-show="errores.iva">{{errores.iva}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.ordenCompra?'error':''">
+                                    <label for="ordenCompra">ordenCompra</label>
+                                    <input id="ordenCompra" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.ordenCompra"
+            							   placeholder="ordenCompra"/>
+                                    <div ng-show="errores.ordenCompra">{{errores.ordenCompra}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.remision?'error':''">
+                                    <label for="remision">remision</label>
+                                    <input id="remision" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.remision"
+            							   placeholder="remision"/>
+                                    <div ng-show="errores.remision">{{errores.remision}}</div>
+                                </div>
+                            </div>				<div class="row">
+                                <div class="form-group col-md-6" ng-class="errores.saldo?'error':''">
+                                    <label for="saldo">saldo</label>
+                                    <input id="saldo" 
+                                           class="form-control" 
+            							   type="text"
+                                           ng-model="datosFormulario.saldo"
+            							   placeholder="saldo"/>
+                                    <div ng-show="errores.saldo">{{errores.saldo}}</div>
+                                </div>
+                            </div> 
+							<div class="row">
+			                    <div class="form-group col-md-6" ng-class="errores.idAseg?'error':''">
+			                        <label>persona</label>
+									<select id="persona" class="form-control" 
+			                            ng-model="datosFormulario.persona"
+			                            ng-options="option.nombre for option in listaPersona track by option.id">
+			                    	</select>
+			                        <div ng-show="errores.persona">{{errores.persona}}</div>
+			                    </div>
+			                </div>				<div class="row">
+			                    <div class="form-group col-md-6" ng-class="errores.idAseg?'error':''">
+			                        <label>tipoPago</label>
+									<select id="tipoPago" class="form-control" 
+			                            ng-model="datosFormulario.tipoPago"
+			                            ng-options="option.nombre for option in listaTipoPago track by option.id">
+			                    	</select>
+			                        <div ng-show="errores.tipoPago">{{errores.tipoPago}}</div>
+			                    </div>
+			                </div>
+			<div class="btn-group">
+				<button type="button" class="btn btn-default" ng-click="guardar()">Aceptar</button>
+                <button type="button" class="btn btn-default" ng-click="cancelar()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,131 @@
+<div class="row">
+    <div class="col-md-7">
+        <div class="panel panel-primary" ng-show="panelEditar">
+            <div class="panel-heading">Productos</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group col-md-9" ng-class="errores.idAseg ? 'error' : ''">
+                        <div class="col-md-3">
+                            <label>Grupo</label>    
+                        </div>
+                        <div class="col-md-9">
+                            <select id="grupoProducto" class="form-control"  ng-model="datosFormulario.grupoProducto" ng-options="option.nombre for option in listaGrupoProducto track by option.id" ng-change="mostrarTipo()">
+                        </select>
+                        <div ng-show="errores.grupoProducto">{{errores.grupoProducto}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-9" ng-class="errores.idAseg ? 'error' : ''">
+                        <div class="col-md-3">
+                            <label>Tipo</label>    
+                        </div>
+                        <div class="col-md-9">
+                            <select id="tipoProducto" class="form-control" ng-disabled="selTipo"  ng-model="datosFormulario.tipoProducto" ng-options="option.nombre for option in listaTipoProducto |filter:filtroPorGrupo() track by option.id " ng-change="mostrarProductos()">
+                        </select>
+                        <div ng-show="errores.tipoProducto">{{errores.tipoProducto}}</div>
+                        </div>
+                    </div>
+                </div>
+                <table class="resultados table table-striped">
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Marca</th>                        
+                        <th>
+                            <input class="form-control" ng-model="q" placeholder="Buscar" />
+                        </th>
+                    </tr>
+                    <tr ng-repeat="row in lista|filter: q|tipo|itemsPerPage:10">
+                        <td class="row">{{row.codigo}}</td>
+                        <td class="row">{{row.nombre}}</td>
+                        <td class="row">{{row.marca.nombre}}</td>
+                        
+                        <td class="row">
+                            <button type="button" class="btn btn-default" ng-click="agregar(row)">
+                                <span class="glyphicon  glyphicon-plus"></span>Agregar
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+                <div dir-pagination-controls></div>
+                <br/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="panel panel-primary" ng-show="panelEditar">
+            <div class="panel-heading">Factura</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="form-group" ng-class="errores.idAseg ? 'error' : ''">
+                            <label>Persona</label>
+                            <select id="persona" class="form-control" ng-model="datosFormulario.persona" ng-options="option.documento for option in listaPersona track by option.id">
+                            </select>
+                            <div ng-show="errores.persona">{{errores.persona}}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        Factura número #####
+                    </div>
+                </div>
+                
+                    <table class="resultados table table-striped">
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>IVA</th>
+                            <th>Valor Unitario</th>
+                            <th>Valor Total</th>
+                            <th></th>
+                        </tr>
+                        <tr dir-paginate="row in listaDetalle|itemsPerPage:10">
+                            <td class="row">{{row.producto.nombre}}</td>
+                            <td class="row"><input type="number" ng-model="row.cantidad" ng-change="recalcularSaldo()" style="width: 50px;"></td>
+                            <td class="row">{{row.iva}}</td>
+                            <td class="row">{{row.precioUnidad}}</td>
+                            <td class="row">{{row.precioUnidad * row.cantidad}}</td>
+                            <td class="row">
+                                <button type="button" class="btn btn-default" ng-click="eliminar(row)">
+                                    <span class="glyphicon glyphicon-remove"></span>Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                
+                
+                    <div class="row">
+                        <div class=" col-md-6">
+                            <label>Subtotal</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label>{{subtotal}}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>IVA</label>
+                        </div>
+                        <div class=" col-md-6">
+                            <label>{{iva}}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Total</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label>{{total}}</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" ng-click="generar(row)">
+                        <span class="glyphicon glyphicon-list-alt"></span> Generar
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="limpiar()">
+                        <span class="glyphicon glyphicon-trash"></span> Limpiar
+                    </button>
+            </div>
+        </div>
+    </div>
+</div>
